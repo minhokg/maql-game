@@ -1,5 +1,6 @@
-import secrets
 from typing import Dict, List
+
+import numpy as np
 
 
 class MultiAgentQLearning:
@@ -16,7 +17,14 @@ class MultiAgentQLearning:
 
     """
 
-    def __init__(self, actions: List[str], alpha: float = 0.1, gamma: float = 0.9, epsilon: float = 0.1) -> None:
+    def __init__(
+        self,
+        actions: List[str],
+        alpha: float = 0.1,
+        gamma: float = 0.9,
+        epsilon: float = 0.1,
+        random_seed: int = 42,
+    ) -> None:
         """
         Initialize the MultiAgentQLearning agent.
 
@@ -25,6 +33,7 @@ class MultiAgentQLearning:
             alpha (float, optional): The learning rate (default is 0.1).
             gamma (float, optional): The discount factor (default is 0.9).
             epsilon (float, optional): The exploration rate (default is 0.1).
+            random_seed (int, optional): The random seed (default is 42).
 
         """
         self.actions = actions
@@ -33,6 +42,7 @@ class MultiAgentQLearning:
         self.epsilon = epsilon  # Exploration rate
         self.q_table: Dict[str, float] = {action: 0.0 for action in actions}  # Initialize Q-table with float values
         self.history: List[int] = []  # Track history of actions
+        np.random.seed(random_seed)  # For reproducibility
 
     def choose_action(self) -> str:
         """
@@ -42,9 +52,9 @@ class MultiAgentQLearning:
             str: The selected action.
 
         """
-        if secrets.randbelow(100) < self.epsilon * 100:
-            return secrets.choice(self.actions)
-        return max(self.q_table, key=self.q_table.get)
+        if np.random.randint(0, 100) < self.epsilon * 100:  # Random number in [0, 100)
+            return np.random.choice(self.actions)  # Randomly choose an action
+        return max(self.q_table, key=self.q_table.get)  # Choose the action with the highest Q-value
 
     def update(self, action: str, reward: float, opponent_action: str) -> None:
         """
