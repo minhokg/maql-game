@@ -4,11 +4,13 @@ from typing import List
 import matplotlib.pyplot as plt
 
 
-def save_plot(
+def save_games_plot(
     agent1_history: List[int],
     agent2_history: List[int],
     filename: str,
     save_dir: str,
+    label1: str,
+    label2: str,
 ) -> None:
     """
     Save a plot of the moves made by two agents over time, where each move is represented as either
@@ -19,6 +21,8 @@ def save_plot(
         agent2_history (List[int]): A list of integers representing the moves (Cooperate = 1, Defect = 0) of Agent 2.
         filename (str): The name of the file to save the plot as (e.g., "agent_moves.png").
         save_dir (str): The directory where the plot will be saved.
+        label1 (str): The label of the first agent.
+        label2 (str): The label of the second agent.
 
     Returns:
         None: The function saves the plot as a file to the specified directory and does not return any value.
@@ -34,10 +38,10 @@ def save_plot(
     plt.figure(figsize=(10, 5))
 
     # Plot the moves for Agent 1 as green circles connected by lines
-    plt.plot(rounds, agent1_history, "go-", label="Agent 1")
+    plt.plot(rounds, agent1_history, "go-", label=label1)
 
     # Plot the moves for Agent 2 as blue circles connected by lines
-    plt.plot(rounds, agent2_history, "bo-", label="Agent 2")
+    plt.plot(rounds, agent2_history, "bo-", label=label2)
 
     # Set the title and labels for the plot
     plt.title("Moves over Time: Agent 1 vs. Agent 2")
