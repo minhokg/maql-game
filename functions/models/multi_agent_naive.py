@@ -3,7 +3,7 @@ from typing import Dict, List
 import numpy as np
 
 
-class MultiAgentQLearning:
+class MultiAgentNaive:
     """
     A class that implements the Q-learning algorithm for multi-agent systems.
 
@@ -26,7 +26,7 @@ class MultiAgentQLearning:
         random_seed: int = 42,
     ) -> None:
         """
-        Initialize the MultiAgentQLearning agent.
+        Initialize the MultiAgentNaive agent.
 
         Args:
             actions (List[str]): A list of possible actions (e.g., ['C', 'D']).
