@@ -3,7 +3,7 @@ from typing import Union
 
 from functions.helper.setup_logging import setup_logging
 from functions.models.multi_agent_lola import MultiAgentLOLA
-from functions.models.multi_agent_q_learning import MultiAgentQLearning
+from functions.models.multi_agent_naive import MultiAgentNaive
 
 
 class GameEnv:
@@ -45,15 +45,15 @@ class GameEnv:
             ("D", "D"): (4, 4),  # Both defect: both get 4
         }
 
-    def simulate_game(self, agent1: Union[MultiAgentQLearning, MultiAgentLOLA], agent2: Union[MultiAgentQLearning, MultiAgentLOLA], n_episodes: int) -> None:
+    def simulate_game(self, agent1: Union[MultiAgentNaive, MultiAgentLOLA], agent2: Union[MultiAgentNaive, MultiAgentLOLA], n_episodes: int) -> None:
         """
         Simulate a game between two agents for a given number of episodes.
         During each episode, the agents choose actions based on their current policies,
         update their Q-values or LOLA parameters, and receive rewards based on the actions taken.
 
         Args:
-            agent1 (Union[MultiAgentQLearning, MultiAgentLOLA]): The first agent in the simulation, either using Q-learning or LOLA.
-            agent2 (Union[MultiAgentQLearning, MultiAgentLOLA]): The second agent in the simulation, either using Q-learning or LOLA.
+            agent1 (Union[MultiAgentNaive, MultiAgentLOLA]): The first agent in the simulation, either using Q-learning or LOLA.
+            agent2 (Union[MultiAgentNaive, MultiAgentLOLA]): The second agent in the simulation, either using Q-learning or LOLA.
             n_episodes (int): The number of episodes to run the simulation for.
 
         Returns:
@@ -77,7 +77,7 @@ class GameEnv:
             reward1, reward2 = self.payoff_matrix[(action1, action2)]
 
             # Update the Q-values for Agent 1 based on their action and reward
-            if isinstance(agent1, MultiAgentQLearning):
+            if isinstance(agent1, MultiAgentNaive):
                 # If agent1 is using Q-learning, update based on action1 and reward1
                 agent1.update(action1, reward1, action2)
             else:
@@ -86,7 +86,7 @@ class GameEnv:
                 agent1.update(action1, reward1, action2, opponent_q_table)
 
             # Update the Q-values for Agent 2 based on their action and reward
-            if isinstance(agent2, MultiAgentQLearning):
+            if isinstance(agent2, MultiAgentNaive):
                 # If agent2 is using Q-learning, update based on action2 and reward2
                 agent2.update(action2, reward2, action1)
             else:
