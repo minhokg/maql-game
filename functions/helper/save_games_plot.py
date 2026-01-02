@@ -48,6 +48,10 @@ def save_games_plot(
     plt.xlabel("Rounds")
     plt.ylabel("Move (Cooperate = 1, Defect = 0)")
 
+    # Set y-ticks
+    plt.ylim(-0.05, 1.05)  # optional: small padding
+    plt.yticks([0, 1], ["Defect (0)", "Cooperate (1)"])  # or just [0, 1]
+
     # Display the legend to differentiate the two agents
     plt.legend()
 
